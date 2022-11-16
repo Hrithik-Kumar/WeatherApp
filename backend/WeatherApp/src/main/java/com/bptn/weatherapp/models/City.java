@@ -90,5 +90,18 @@ public class City {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "City {" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", population='" + population + '\'' +
+                ", timezone='" + timezone + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                '}';
+    }
+
 
 }

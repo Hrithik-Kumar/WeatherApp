@@ -284,6 +284,37 @@ public class Weather {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", icon='" + icon + '\'' +
+                ", sunrise=" + sunrise +
+                ", sunset=" + sunset +
+                ", tempMin=" + tempMin +
+                ", tempMax=" + tempMax +
+                ", tempDay=" + tempDay +
+                ", tempNight=" + tempNight +
+                ", tempMorning=" + tempMorning +
+                ", tempEvening=" + tempEvening +
+                ", feelsLikeDay=" + feelsLikeDay +
+                ", feelsLikeNight=" + feelsLikeNight +
+                ", feelsLikeMorning=" + feelsLikeMorning +
+                ", feelsLikeEvening=" + feelsLikeEvening +
+                ", precipitation=" + precipitation +
+                ", windSpeed=" + windSpeed +
+                ", windDirection=" + windDirection +
+                ", windGust=" + windGust +
+                ", pressure=" + pressure +
+                ", humidity=" + humidity +
+                ", cityID=" + cityID +
+                ", updatedOn=" + updatedOn +
+                ", createdOn=" + createdOn +
+                '}';
+    }
+
 
 }
 
