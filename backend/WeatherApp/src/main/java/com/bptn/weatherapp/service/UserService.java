@@ -1,24 +1,22 @@
 package com.bptn.weatherapp.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.bptn.weatherapp.models.User;
-import com.bptn.weatherapp.repository.UserRepository;
+
 
 
 @Service
-public class UserService {
+public interface UserService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    User findUserById(int userId) throws Exception;
 
-    @Autowired
-    private UserRepository userRepository;
+    User findUserByUsername(String username) throws Exception;
 
-    public User getUser(int userId) {
-        LOGGER.info("User id passed is {}", userId);
-        return userRepository.findUserById(userId);
-    }
+    User validateUserById(int userId) throws Exception;
 
+    void deleteUserById(int userId) throws Exception;
+
+    User updateUserById(User user) throws Exception;
+
+    User createUser(User user) throws Exception;
 }

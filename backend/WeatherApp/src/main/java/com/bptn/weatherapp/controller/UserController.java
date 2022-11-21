@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserService userService;
-
-    @GetMapping(value = "/users/{userId}")
-    public ResponseEntity<?> getUser(@PathVariable("userId") int userId) {
-        return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
-    }
+//    @Autowired
+//    private UserService userService;
+//
+//    @GetMapping(value = "/users/{userId}")
+//    public ResponseEntity<?> getUser(@PathVariable("userId") int userId) {
+//        return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
+//    }
 
 }
 
