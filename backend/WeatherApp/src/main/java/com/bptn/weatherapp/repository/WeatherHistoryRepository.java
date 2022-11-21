@@ -16,5 +16,7 @@ public interface WeatherHistoryRepository extends JpaRepository<WeatherHistory, 
     List<WeatherHistory> findWeatherByUpdatedOn(Instant updatedOn);
 
     WeatherHistory findWeatherById(int id);
+
+    List<WeatherHistory> findWeatherByCreatedOnBetween(Instant from, Instant to);
 }
 
