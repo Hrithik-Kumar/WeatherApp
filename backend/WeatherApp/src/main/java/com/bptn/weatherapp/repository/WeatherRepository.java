@@ -12,10 +12,9 @@ import java.util.List;
 public interface WeatherRepository extends JpaRepository<Weather, Integer> {
 
     List<Weather> findWeatherByCityID(City city);
-
     List<Weather> findWeatherByUpdatedOn(Instant updatedOn);
-
     Weather findWeatherById(int id);
+    List<Weather> findWeatherByCreatedOnBetween(Instant from, Instant to);
 }
 
 

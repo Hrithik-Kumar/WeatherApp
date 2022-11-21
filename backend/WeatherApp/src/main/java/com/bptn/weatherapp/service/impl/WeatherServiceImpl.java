@@ -108,6 +108,12 @@ public class WeatherServiceImpl implements WeatherService  {
         return new Gson().fromJson(jsonElement.getAsJsonObject(), WeatherApiResponse.class);
     }
 
+    @Override
+    public List<Weather> findWeatherByCreatedOnBetween(String from, String to) throws Exception {
+        LOGGER.debug("Finding Weather data from = {}  to = {}", from, to);
+        return weatherRepository.findWeatherByCreatedOnBetween(Instant.parse(from), Instant.parse(to));
+    }
+
     private String buildApiUrl(String query) {
         String url = apiBaseUrl +
                 "?cnt=1&mode=json&units=metric" +
