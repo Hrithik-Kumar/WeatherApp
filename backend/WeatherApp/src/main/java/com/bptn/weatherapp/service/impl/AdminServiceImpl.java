@@ -63,11 +63,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void deleteUser(String username) throws Exception {
         LOGGER.debug("deleting user for user = {}", username);
-        User user = userService.findUserByUsername(username);
+        List<User> user = userService.findUserByUsername(username);
         if (user == null) {
             throw new Exception("User doesn't exist");
         }
-        userRepository.delete(user);
+        userRepository.deleteAll(user);
     }
 
 }

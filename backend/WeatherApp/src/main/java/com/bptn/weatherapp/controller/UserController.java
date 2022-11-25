@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class UserController {
 
@@ -34,7 +36,8 @@ public class UserController {
     @GetMapping(value = "/users/username/{userName}")
     public ResponseEntity<?> getUserByUsername(@PathVariable("userName") String userName) {
         LOGGER.debug("Executing getUserByUsername API. Request Parameter = {}", userName);
-        User user;
+//        User user; This is incorrect Since username is not unique
+        List<User> user;
         try {
             user = userService.findUserByUsername(userName);
         } catch (Exception e) {

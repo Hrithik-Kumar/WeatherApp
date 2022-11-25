@@ -1,5 +1,7 @@
 package com.bptn.weatherapp.models;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -20,7 +22,7 @@ public class User {
     private String emailID;
 
     @Column(name = "\"isAdmin\"")
-    private boolean isAdmin;
+    private Boolean isAdmin;
 
     @Column(name = "address")
     private String address;

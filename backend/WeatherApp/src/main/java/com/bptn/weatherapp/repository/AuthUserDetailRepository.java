@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AuthUserDetailRepository extends JpaRepository<AuthUserDetail, Integer> {
 
-    AuthUserDetail findAuthUserDetailByUserIDAndUserPassword(User userId, String userPassword);
+    AuthUserDetail findAuthUserDetailByUsernameAndUserPassword(String username, String userPassword);
 
 }

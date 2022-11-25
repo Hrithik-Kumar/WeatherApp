@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -64,12 +66,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByUsername(String username) throws Exception {
+    public List<User> findUserByUsername(String username) throws Exception {
         if (username == null || username.length() == 0) {
             throw new Exception("Username can't be empty");
         }
         LOGGER.debug("Fetching User from database for username = {}", username);
-        User user = userRepository.findUserByUsername(username);
+        List<User> user = userRepository.findUserByUsername(username);
         if (user == null) {
             String errorMsg = "User doesn't exist with the given username";
             LOGGER.error(errorMsg);
