@@ -3,16 +3,15 @@ package com.bptn.weatherapp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "\"City\"")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class City {
+
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer id;
 

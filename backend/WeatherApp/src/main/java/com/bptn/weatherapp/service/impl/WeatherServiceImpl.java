@@ -1,5 +1,7 @@
 package com.bptn.weatherapp.service.impl;
 
+import com.bptn.weatherapp.exception.NoCityExistException;
+import com.bptn.weatherapp.exception.NoWeatherExistException;
 import com.bptn.weatherapp.models.City;
 import com.bptn.weatherapp.models.Weather;
 import com.bptn.weatherapp.repository.CityRepository;
@@ -7,19 +9,18 @@ import com.bptn.weatherapp.repository.WeatherRepository;
 import com.bptn.weatherapp.response.WeatherApiResponse;
 import com.bptn.weatherapp.service.WeatherService;
 import com.bptn.weatherapp.util.ResponseToEntityMapping;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,48 +42,48 @@ public class WeatherServiceImpl implements WeatherService  {
     private String apiBaseUrl;
 
     @Override
-    public List<Weather> findWeatherByCityName(String cityName)  throws Exception {
+    public List<Weather> findWeatherByCityName(String cityName) throws NoWeatherExistException, NoCityExistException {
         LOGGER.debug("finding Weather Objects into database for city = {}", cityName);
         City city = cityRepository.findCityByName(cityName);
         if (city == null) {
-            throw new Exception("City doesn't exit");
+            throw new NoCityExistException("City doesn't exit");
         }
         List<Weather> weatherList = weatherRepository.findWeatherByCityID(city);
         if (weatherList == null || weatherList.isEmpty()) {
-            throw new Exception("No Weather exist");
+            throw new NoWeatherExistException("No Weather exist");
         }
         return weatherList;
     }
 
     @Override
-    public Weather findWeatherById(int id) throws Exception{
+    public Weather findWeatherById(int id) throws NoWeatherExistException{
         LOGGER.debug("finding Weather Objects into database for Id = {}", id);
         Weather weather = weatherRepository.findWeatherById(id);
         if (weather == null) {
-            throw new Exception("No Weather exist");
+            throw new NoWeatherExistException("No Weather exist");
         }
         return weather;
     }
 
     @Override
-    public List<Weather> findWeatherByUpdatedOn(String updatedOn) throws Exception{
+    public List<Weather> findWeatherByUpdatedOn(String updatedOn) throws NoWeatherExistException{
         LOGGER.debug("finding Weather Objects into database for updatedOn = {}", updatedOn);
         Instant date = Instant.parse(updatedOn);
         List<Weather> weatherList = weatherRepository.findWeatherByUpdatedOn(date);
         if (weatherList == null || weatherList.isEmpty()) {
-            throw new Exception("No Weather exist");
+            throw new NoWeatherExistException("No Weather exist");
         }
         return weatherList;
     }
 
     @Override
-    public Weather createWeather(Weather weather) throws Exception{
+    public Weather createWeather(Weather weather) throws IllegalArgumentException{
         LOGGER.debug("Creating Weather = {}", weather);
         return weatherRepository.save(weather);
     }
 
     @Override
-    public List<Weather> getWeatherFromWeatherAPI(String query) throws Exception {
+    public List<Weather> getWeatherFromWeatherAPI(String query) throws RestClientException, JsonSyntaxException {
         String url = buildApiUrl(query);
         String weatherJsonString = getWeatherFromOpenWeatherAPI(url);
         List<Weather> resultList = new LinkedList<>();
@@ -94,7 +95,7 @@ public class WeatherServiceImpl implements WeatherService  {
         return resultList;
     }
 
-    private String getWeatherFromOpenWeatherAPI(String url) {
+    private String getWeatherFromOpenWeatherAPI(String url) throws RestClientException, JsonSyntaxException {
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(url, String.class);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -109,7 +110,7 @@ public class WeatherServiceImpl implements WeatherService  {
     }
 
     @Override
-    public List<Weather> findWeatherByCreatedOnBetween(String from, String to) throws Exception {
+    public List<Weather> findWeatherByCreatedOnBetween(String from, String to) throws DateTimeParseException {
         LOGGER.debug("Finding Weather data from = {}  to = {}", from, to);
         return weatherRepository.findWeatherByCreatedOnBetween(Instant.parse(from), Instant.parse(to));
     }

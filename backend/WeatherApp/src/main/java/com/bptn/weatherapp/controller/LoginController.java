@@ -3,6 +3,7 @@ package com.bptn.weatherapp.controller;
 import com.bptn.weatherapp.models.AuthUserDetail;
 import com.bptn.weatherapp.models.User;
 import com.bptn.weatherapp.request.LoginRequest;
+import com.bptn.weatherapp.request.SignupRequest;
 import com.bptn.weatherapp.service.AuthUserDetailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +37,11 @@ public class LoginController {
     }
 
     @PostMapping(value = "/user/signup")
-    public ResponseEntity<?> signup(@RequestBody AuthUserDetail authUserDetail){
-        LOGGER.debug("Executing signup API. Request Parameters = {}", authUserDetail);
+    public ResponseEntity<?> signup(@RequestBody SignupRequest request){
+        LOGGER.debug("Executing signup API. Request Parameters = {}", request.body());
         User user;
         try {
-            user = authUserDetailService.signup(authUserDetail);
+            user = authUserDetailService.signup(request);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

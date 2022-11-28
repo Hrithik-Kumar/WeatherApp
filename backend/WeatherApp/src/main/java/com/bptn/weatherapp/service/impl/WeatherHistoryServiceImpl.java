@@ -1,5 +1,7 @@
 package com.bptn.weatherapp.service.impl;
 
+import com.bptn.weatherapp.exception.NoCityExistException;
+import com.bptn.weatherapp.exception.NoWeatherHistoryExistException;
 import com.bptn.weatherapp.models.City;
 import com.bptn.weatherapp.models.WeatherHistory;
 import com.bptn.weatherapp.repository.CityRepository;
@@ -24,47 +26,47 @@ public class WeatherHistoryServiceImpl implements WeatherHistoryService {
     @Autowired
     private WeatherHistoryRepository weatherHistoryRepository;
 
-    public List<WeatherHistory> findWeatherByCityName(String cityName) throws Exception {
+    public List<WeatherHistory> findWeatherByCityName(String cityName) throws NoWeatherHistoryExistException, NoCityExistException {
         LOGGER.debug("Finding Weather by City = {}", cityName);
         City city = cityRepository.findCityByName(cityName);
         if (city == null) {
-            throw new Exception("City doesn't exist");
+            throw new NoCityExistException("City doesn't exist");
         }
         List<WeatherHistory> weatherHistoryList = weatherHistoryRepository.findWeatherByCityID(city);
         if (weatherHistoryList == null || weatherHistoryList.isEmpty()) {
-            throw new Exception("WeatherHistory doesn't exist");
+            throw new NoWeatherHistoryExistException("WeatherHistory doesn't exist");
         }
         return weatherHistoryList;
     }
 
     @Override
-    public List<WeatherHistory> findWeatherByUpdatedOn(String updatedOn) throws Exception {
+    public List<WeatherHistory> findWeatherByUpdatedOn(String updatedOn) throws NoWeatherHistoryExistException {
         LOGGER.debug("Finding Weather by Updated On = {}", updatedOn);
         List<WeatherHistory> weatherHistoryList =
                 weatherHistoryRepository.findWeatherByUpdatedOn(Instant.parse(updatedOn));
         if (weatherHistoryList == null || weatherHistoryList.isEmpty()) {
-            throw new Exception("WeatherHistory doesn't exist");
+            throw new NoWeatherHistoryExistException("WeatherHistory doesn't exist");
         }
         return weatherHistoryList;
     }
 
     @Override
-    public WeatherHistory findWeatherById(int id) throws Exception {
+    public WeatherHistory findWeatherById(int id) throws NoWeatherHistoryExistException {
         LOGGER.debug("Finding Weather by id = {}", id);
         WeatherHistory weatherHistory = weatherHistoryRepository.findWeatherById(id);
         if (weatherHistory == null) {
-            throw new Exception("WeatherHistory doesn't exist");
+            throw new NoWeatherHistoryExistException("WeatherHistory doesn't exist");
         }
         return weatherHistory;
     }
 
     @Override
-    public List<WeatherHistory> findWeatherByCreatedOnBetween(String from, String to) throws Exception {
+    public List<WeatherHistory> findWeatherByCreatedOnBetween(String from, String to) throws NoWeatherHistoryExistException {
         LOGGER.debug("Finding Weather from = {} to to = {}", from, to);
         List<WeatherHistory> weatherHistoryList =
                 weatherHistoryRepository.findWeatherByCreatedOnBetween(Instant.parse(from), Instant.parse(to));
         if (weatherHistoryList == null || weatherHistoryList.isEmpty()) {
-            throw new Exception("WeatherHistory doesn't exist");
+            throw new NoWeatherHistoryExistException("WeatherHistory doesn't exist");
         }
         return weatherHistoryList;
     }

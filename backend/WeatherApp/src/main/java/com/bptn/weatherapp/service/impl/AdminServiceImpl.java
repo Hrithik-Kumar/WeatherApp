@@ -1,5 +1,7 @@
 package com.bptn.weatherapp.service.impl;
 
+import com.bptn.weatherapp.exception.InvalidRequestException;
+import com.bptn.weatherapp.exception.NoUserExistException;
 import com.bptn.weatherapp.models.User;
 import com.bptn.weatherapp.models.Weather;
 import com.bptn.weatherapp.models.WeatherHistory;
@@ -61,11 +63,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteUser(String username) throws Exception {
+    public void deleteUser(String username) throws NoUserExistException, InvalidRequestException {
         LOGGER.debug("deleting user for user = {}", username);
         List<User> user = userService.findUserByUsername(username);
         if (user == null) {
-            throw new Exception("User doesn't exist");
+            throw new NoUserExistException("User doesn't exist");
         }
         userRepository.deleteAll(user);
     }
